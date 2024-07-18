@@ -27,5 +27,4 @@
       arrows: false,
       dots: true,
     });
-    
   })(window.jQuery);

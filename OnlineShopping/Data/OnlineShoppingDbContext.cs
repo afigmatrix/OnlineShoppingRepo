@@ -16,5 +16,7 @@ namespace OnlineShopping.Data
 
         public DbSet<FirstSectionSlide> FirstSectionSlides { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<FavoriteModel> FavoriteModels { get; set; }
     }
 }

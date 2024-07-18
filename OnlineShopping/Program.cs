@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 services.AddScoped<IAccountRepository, AccountRepository>();
+services.AddScoped<IProductRepository, ProductRepository>();
 services.AddScoped<IAccountService, AccountService>();
+services.AddScoped<IProductService, ProductService>();
 var configuration = builder.Configuration;
 
 

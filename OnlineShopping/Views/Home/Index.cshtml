@@ -1,11 +1,12 @@
-﻿@{
+﻿@using OnlineShopping.Models.ViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-@model List<FirstSectionSlide>
+@model HomeIndexVM
 
 <section class="slick-slideshow">
-    @foreach(var item in Model)
+    @foreach (var item in Model.FirstSectionSlide)
     {
         <div class="slick-custom">
             <img src="@item.Image" class="img-fluid" alt="">
@@ -194,81 +195,34 @@
                 <h2 class="mb-5">Featured Products</h2>
             </div>
 
-            <div class="col-lg-4 col-12 mb-3">
-                <div class="product-thumb">
-                    <a href="product-detail.html">
-                        <img src="~/assets/images/product/evan-mcdougall-qnh1odlqOmk-unsplash.jpeg" class="img-fluid product-image" alt="">
-                    </a>
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-lg-4 col-12 mb-3">
+                    <div class="product-thumb">
+                        <a href="product-detail.html">
+                            <img src="@item.Image" class="img-fluid product-image" alt="">
+                        </a>
 
-                    <div class="product-top d-flex">
-                        <span class="product-alert me-auto">New Arrival</span>
+                        <div class="product-top d-flex">
+                            <span class="product-alert me-auto">New Arrival</span>
 
-                        <a href="#" class="bi-heart-fill product-icon"></a>
-                    </div>
-
-                    <div class="product-info d-flex">
-                        <div>
-                            <h5 class="product-title mb-0">
-                                <a href="product-detail.html" class="product-title-link">Tree pot</a>
-                            </h5>
-
-                            <p class="product-p">Original package design from house</p>
+                            <a  class="bi-heart-fill product-icon" data-fav-id="@item.Id"></a>
                         </div>
 
-                        <small class="product-price text-muted ms-auto mt-auto mb-5">$25</small>
-                    </div>
-                </div>
-            </div>
+                        <div class="product-info d-flex">
+                            <div>
+                                <h5 class="product-title mb-0">
+                                    <a href="product-detail.html" class="product-title-link">@item.Header</a>
+                                </h5>
 
-            <div class="col-lg-4 col-12 mb-3">
-                <div class="product-thumb">
-                    <a href="product-detail.html">
-                        <img src="~/assets/images/product/jordan-nix-CkCUvwMXAac-unsplash.jpeg" class="img-fluid product-image" alt="">
-                    </a>
+                                <p class="product-p">@item.Description</p>
+                            </div>
 
-                    <div class="product-top d-flex">
-                        <span class="product-alert">Low Price</span>
-
-                        <a href="#" class="bi-heart-fill product-icon ms-auto"></a>
-                    </div>
-
-                    <div class="product-info d-flex">
-                        <div>
-                            <h5 class="product-title mb-0">
-                                <a href="product-detail.html" class="product-title-link">Fashion Set</a>
-                            </h5>
-
-                            <p class="product-p">Costume Package</p>
+                            <small class="product-price text-muted ms-auto mt-auto mb-5">$@item.Price</small>
                         </div>
-
-                        <small class="product-price text-muted ms-auto mt-auto mb-5">$35</small>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-4 col-12">
-                <div class="product-thumb">
-                    <a href="product-detail.html">
-                        <img src="~/assets/images/product/nature-zen-3Dn1BZZv3m8-unsplash.jpeg" class="img-fluid product-image" alt="">
-                    </a>
-
-                    <div class="product-top d-flex">
-                        <a href="#" class="bi-heart-fill product-icon ms-auto"></a>
-                    </div>
-
-                    <div class="product-info d-flex">
-                        <div>
-                            <h5 class="product-title mb-0">
-                                <a href="product-detail.html" class="product-title-link">Juice Drinks</a>
-                            </h5>
-
-                            <p class="product-p">Nature made another world</p>
-                        </div>
-
-                        <small class="product-price text-muted ms-auto mt-auto mb-5">$45</small>
-                    </div>
-                </div>
-            </div>
+            }
 
             <div class="col-12 text-center">
                 <a href="products.html" class="view-all">View All Products</a>
@@ -278,3 +232,29 @@
     </div>
 </section>
 
+@section Scripts {
+    <script>
+        function CreateGuid() {
+            function _p8(s) {
+                var p = (Math.random().toString(16) + "000000000").substr(2, 8);
+                return s ? "-" + p.substr(0, 4) + "-" + p.substr(4, 4) : p;
+            }
+            return _p8() + _p8(true) + _p8(true) + _p8();
+        }
+        $(document).ready(function () {
+            if (localStorage.getItem('uId') === null) {
+                localStorage.setItem('uId', CreateGuid());
+            }
+
+            $('.bi-heart-fill').each(function () {
+                var $this = $(this);
+                $this.on("click", function () {
+                    let ProductId = $(this).data('fav-id');
+                    let UID = localStorage.getItem('uId');
+
+                    $.post("/Product/SetFavorite", { ProductId: ProductId, UID: UID });
+                });
+            });
+        });
+    </script>
+}
