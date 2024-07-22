@@ -13,7 +13,9 @@ namespace OnlineShopping.Service.Impl
         }
         public async Task<List<Product>> GetAll()
         {
-            return await productRepository.GetAll();
+               var allProducts =  await productRepository.GetAll();
+               var userFavoriteProduct = await 
+            return
         }
 
         public async Task SetFavorite(FavoriteModel favoriteModel)
