@@ -17,8 +17,15 @@ namespace OnlineShopping.Controllers
             await productService.SetFavorite(model);
         }
 
+        public  async Task<IActionResult> GetProductPartialView([FromQuery(Name ="UID")]string UID)
+        {
+            var data = await productService.GetAll(UID);
+            return PartialView(data);
+        }
+
         public IActionResult Index()
         {
+
             return View();
         }
     }

@@ -19,12 +19,12 @@ namespace OnlineShopping.Controllers
             this.productService = productService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string uid)
         {
             var vm = new HomeIndexVM
             {
                 FirstSectionSlide = await context.FirstSectionSlides.ToListAsync(),
-                Products = await productService.GetAll(),
+                Products = await productService.GetAll(uid),
             };
             return View(vm);
         }

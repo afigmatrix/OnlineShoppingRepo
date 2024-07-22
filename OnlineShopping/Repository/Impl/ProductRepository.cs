@@ -41,5 +41,10 @@ namespace OnlineShopping.Repository.Impl
         {
            context.FavoriteModels.Remove(favoriteModel);
         }
+
+        public async Task<List<int>> GetFavoriteProdIdList(string uid)
+        {
+            return await context.FavoriteModels.Where(m => m.UID == uid).Select(m=>m.ProductId).ToListAsync();
+        }
     }
 }

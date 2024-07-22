@@ -8,6 +8,7 @@ using OnlineShopping.Service.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
+services.AddAutoMapper(typeof(Program));
 services.AddScoped<IAccountRepository, AccountRepository>();
 services.AddScoped<IProductRepository, ProductRepository>();
 services.AddScoped<IAccountService, AccountService>();

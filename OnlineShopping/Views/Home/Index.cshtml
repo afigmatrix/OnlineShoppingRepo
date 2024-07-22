@@ -189,44 +189,11 @@
 
 <section class="featured-product section-padding">
     <div class="container">
-        <div class="row">
+        <div class="row" id="productAppend">
 
-            <div class="col-12 text-center">
-                <h2 class="mb-5">Featured Products</h2>
-            </div>
+           
 
-            @foreach (var item in Model.Products)
-            {
-                <div class="col-lg-4 col-12 mb-3">
-                    <div class="product-thumb">
-                        <a href="product-detail.html">
-                            <img src="@item.Image" class="img-fluid product-image" alt="">
-                        </a>
-
-                        <div class="product-top d-flex">
-                            <span class="product-alert me-auto">New Arrival</span>
-
-                            <a  class="bi-heart-fill product-icon" data-fav-id="@item.Id"></a>
-                        </div>
-
-                        <div class="product-info d-flex">
-                            <div>
-                                <h5 class="product-title mb-0">
-                                    <a href="product-detail.html" class="product-title-link">@item.Header</a>
-                                </h5>
-
-                                <p class="product-p">@item.Description</p>
-                            </div>
-
-                            <small class="product-price text-muted ms-auto mt-auto mb-5">$@item.Price</small>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <div class="col-12 text-center">
-                <a href="products.html" class="view-all">View All Products</a>
-            </div>
+          
 
         </div>
     </div>
@@ -241,10 +208,27 @@
             }
             return _p8() + _p8(true) + _p8(true) + _p8();
         }
-        $(document).ready(function () {
+
+        function GetAllProduct() {
             if (localStorage.getItem('uId') === null) {
                 localStorage.setItem('uId', CreateGuid());
             }
+            let UID = localStorage.getItem('uId');
+
+            $.get("/Product/GetProductPartialView?UID="+ UID,function(data){
+                let appendProduct = $("#productAppend");
+                appendProduct.html(data);
+            })
+        }
+
+        $(document).ready(function () {
+
+
+            if (localStorage.getItem('uId') === null) {
+                localStorage.setItem('uId', CreateGuid());
+            }
+
+            GetAllProduct();
 
             $('.bi-heart-fill').each(function () {
                 var $this = $(this);
